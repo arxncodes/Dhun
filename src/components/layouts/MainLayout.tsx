@@ -147,7 +147,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex lg:flex-col lg:w-64 border-r border-border">
+      <aside className="hidden lg:flex lg:flex-col lg:w-64 border-r border-border pb-20">
         <SidebarContent />
       </aside>
 
@@ -168,7 +168,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       </Sheet>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto pb-24">
+      <main className="flex-1 overflow-y-auto pb-32">
         {children}
       </main>
     </div>

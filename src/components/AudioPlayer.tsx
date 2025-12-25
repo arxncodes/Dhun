@@ -98,7 +98,7 @@ export default function AudioPlayer() {
 
   return (
     <div 
-      className={`fixed bottom-0 left-0 right-0 bg-card border-t border-border z-50 transition-transform duration-300 ease-in-out ${
+      className={`fixed bottom-0 left-0 right-0 lg:left-64 bg-card border-t border-border z-40 transition-transform duration-300 ease-in-out ${
         isCollapsed ? 'translate-y-[calc(100%-3.5rem)]' : 'translate-y-0'
       }`}
     >
