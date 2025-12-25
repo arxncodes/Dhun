@@ -19,7 +19,7 @@ import {
   ChevronUp
 } from 'lucide-react';
 import { AddToPlaylistDialog } from './AddToPlaylistDialog';
-import { AudioReactiveWave } from './AudioReactiveWave';
+import SimpleAnimatedWave from './SimpleAnimatedWave';
 
 function formatTime(seconds: number): string {
   if (!isFinite(seconds)) return '0:00';
@@ -136,10 +136,9 @@ export default function AudioPlayer() {
         {!isCollapsed && (
           <>
             {/* Wave Visualizer */}
-            <AudioReactiveWave 
-              audioElement={audioRef.current} 
+            <SimpleAnimatedWave 
               isPlaying={isPlaying}
-              barCount={50}
+              color="#8B5CF6"
             />
 
             {/* Player Controls */}
