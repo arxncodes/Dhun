@@ -74,11 +74,26 @@ export function AudioPlayerProvider({ children }: { children: ReactNode }) {
     if (audioRef.current && currentTrack) {
       audioRef.current.src = currentTrack.file_url;
       audioRef.current.volume = volume;
-      if (isPlaying) {
-        audioRef.current.play().catch(console.error);
-      }
+      audioRef.current.load();
     }
-  }, [currentTrack]);
+  }, [currentTrack, volume]);
+
+  // Handle play/pause state
+  useEffect(() => {
+    if (!audioRef.current || !currentTrack) return;
+    
+    if (isPlaying) {
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
+          console.error('Playback failed:', error);
+          setIsPlaying(false);
+        });
+      }
+    } else {
+      audioRef.current.pause();
+    }
+  }, [isPlaying, currentTrack]);
 
   // Handle time updates
   useEffect(() => {
@@ -91,6 +106,16 @@ export function AudioPlayerProvider({ children }: { children: ReactNode }) {
 
     const handleLoadedMetadata = () => {
       setDuration(audio.duration);
+    };
+
+    const handleError = (e: Event) => {
+      console.error('Audio error:', e);
+      console.error('Audio error details:', audio.error);
+      setIsPlaying(false);
+    };
+
+    const handleCanPlay = () => {
+      console.log('Audio can play:', currentTrack?.title);
     };
 
     const handleEnded = () => {
@@ -125,13 +150,17 @@ export function AudioPlayerProvider({ children }: { children: ReactNode }) {
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('error', handleError);
+    audio.addEventListener('canplay', handleCanPlay);
 
     return () => {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('error', handleError);
+      audio.removeEventListener('canplay', handleCanPlay);
     };
-  }, [repeatMode, currentIndex, queue]);
+  }, [repeatMode, currentIndex, queue, currentTrack]);
 
   // Save progress to recently played
   useEffect(() => {
@@ -346,7 +375,11 @@ export function AudioPlayerProvider({ children }: { children: ReactNode }) {
       }}
     >
       {children}
-      <audio ref={audioRef} />
+      <audio 
+        ref={audioRef} 
+        crossOrigin="anonymous"
+        preload="metadata"
+      />
     </AudioPlayerContext.Provider>
   );
 }
