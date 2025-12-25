@@ -16,10 +16,11 @@ import {
   ListMusic,
   Plus,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Waves
 } from 'lucide-react';
 import { AddToPlaylistDialog } from './AddToPlaylistDialog';
-import SimpleAnimatedWave from './SimpleAnimatedWave';
+import AudioWaveVisualizer from './AudioWaveVisualizer';
 
 function formatTime(seconds: number): string {
   if (!isFinite(seconds)) return '0:00';
@@ -53,6 +54,7 @@ export default function AudioPlayer() {
   const [previousVolume, setPreviousVolume] = useState(volume);
   const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [waveOrientation, setWaveOrientation] = useState<'vertical' | 'horizontal'>('vertical');
 
   const toggleMute = () => {
     if (isMuted) {
@@ -136,9 +138,9 @@ export default function AudioPlayer() {
         {!isCollapsed && (
           <>
             {/* Wave Visualizer */}
-            <SimpleAnimatedWave 
+            <AudioWaveVisualizer 
               isPlaying={isPlaying}
-              color="#8B5CF6"
+              orientation={waveOrientation}
             />
 
             {/* Player Controls */}
@@ -265,6 +267,17 @@ export default function AudioPlayer() {
 
           {/* Volume Control */}
           <div className="flex items-center gap-2 flex-1 justify-end">
+            {/* Wave Orientation Toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setWaveOrientation(prev => prev === 'vertical' ? 'horizontal' : 'vertical')}
+              title={`Switch to ${waveOrientation === 'vertical' ? 'horizontal' : 'vertical'} waves`}
+              className="h-8 w-8"
+            >
+              <Waves className={`h-4 w-4 transition-transform ${waveOrientation === 'horizontal' ? 'rotate-90' : ''}`} />
+            </Button>
+            
             <Button
               variant="ghost"
               size="icon"

@@ -114,6 +114,20 @@ All colors MUST be HSL.
     }
   }
 
+  .wave-bar-horizontal {
+    @apply bg-gradient-to-r from-primary via-chart-2 to-chart-3;
+    animation: wave-horizontal 0.8s ease-in-out infinite;
+  }
+
+  @keyframes wave-horizontal {
+    0%, 100% {
+      transform: scaleX(0.3);
+    }
+    50% {
+      transform: scaleX(1);
+    }
+  }
+
   .gradient-text {
     background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--chart-2)));
     -webkit-background-clip: text;
