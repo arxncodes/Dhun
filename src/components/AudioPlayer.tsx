@@ -22,6 +22,8 @@ import {
 import { AddToPlaylistDialog } from './AddToPlaylistDialog';
 import AudioWaveVisualizer from './AudioWaveVisualizer';
 
+// Version: 5.0.0 - Restored original vertical bar wave animation
+
 function formatTime(seconds: number): string {
   if (!isFinite(seconds)) return '0:00';
   const mins = Math.floor(seconds / 60);
