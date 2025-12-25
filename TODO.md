@@ -1,67 +1,78 @@
-# Task: Build Dhun - Music & Podcast Streaming Web Application
+# Task: Add Bulk Music Upload Feature to Admin Dashboard
 
 ## Plan
 
-- [x] Step 1: Design System & Theme Configuration (Completed)
-  - [x] Update index.css with deep purple (#8B5CF6) primary color and dark background (#0F172A)
-  - [x] Configure complete color system with proper contrast ratios
-  - [x] Add audio wave animation utilities
+- [x] Step 1: Create BulkUploadDialog component (Completed)
+  - [x] Add upload mode toggle (Single/Bulk)
+  - [x] Create bulk upload form with group-level fields
+  - [x] Add multiple file selection support
+  - [x] Add single cover image upload for all tracks
+  - [x] Display selected files list with individual titles
 
-- [x] Step 2: Database Schema & Backend Setup (Completed)
-  - [x] Initialize Supabase
-  - [x] Create database tables (users, tracks, podcasts, playlists, playlist_tracks, recently_played, profiles)
-  - [x] Set up authentication with username + password
-  - [x] Configure RLS policies
-  - [x] Create storage bucket for audio files
+- [x] Step 2: Add bulk upload API function (Completed)
+  - [x] Create bulkCreateTracks function in trackApi
+  - [x] Handle multiple file uploads in parallel
+  - [x] Apply group metadata to all tracks
 
-- [x] Step 3: Type Definitions & API Layer (Completed)
-  - [x] Define TypeScript types for all entities
-  - [x] Create database API functions in @/db/api.ts
-  - [x] Set up audio context for playback
+- [x] Step 3: Update AdminDashboardPage (Completed)
+  - [x] Add upload mode state (single/bulk)
+  - [x] Integrate BulkUploadDialog component
+  - [x] Add bulk upload handler function
+  - [x] Update UI to show upload mode toggle
 
-- [x] Step 4: Authentication System (Completed)
-  - [x] Update AuthContext for username-based login
-  - [x] Create Login/Register pages
-  - [x] Update RouteGuard for public routes
-  - [x] Add user profile management
+- [x] Step 4: Testing and validation (Completed)
+  - [x] Run lint check - All passed!
 
-- [x] Step 5: Core Layout Components (Completed)
-  - [x] Create main layout with sidebar navigation
-  - [x] Build bottom audio player bar with wave visualization
-  - [x] Implement responsive mobile menu
+## Implementation Summary
 
-- [x] Step 6: Music & Podcast Pages (Completed)
-  - [x] Create Browse Music page with grid layout
-  - [x] Create Browse Podcasts page
-  - [x] Implement Search functionality
-  - [x] Build Playlist management pages
-  - [x] Create Recently Played page
-  - [x] Build Favorites/Liked tracks page
+### Features Implemented:
 
-- [x] Step 7: Audio Player Component (Completed)
-  - [x] Build audio player with HTML5 Audio API
-  - [x] Implement Web Audio API for wave visualization
-  - [x] Add playback controls (play, pause, skip, volume, seek)
-  - [x] Implement resume last played functionality
-  - [x] Add like/favorite functionality
+1. **BulkUploadDialog Component** (src/components/BulkUploadDialog.tsx)
+   - Two-tab interface: Single Upload and Bulk Upload
+   - Single upload maintains all original functionality (music/podcast support)
+   - Bulk upload features:
+     - Multiple audio file selection
+     - Group name and description fields (optional)
+     - Artist name (required, applies to all)
+     - Music category (required, applies to all)
+     - Single cover image upload (applies to all tracks)
+     - Editable track titles for each file
+     - Visual file list with remove buttons
+     - Real-time file count in upload button
 
-- [x] Step 8: Admin Features (Completed)
-  - [x] Create Admin dashboard
-  - [x] Build track upload and metadata management
-  - [x] Build podcast upload and management
-  - [x] Implement content library management
+2. **API Enhancement** (src/db/api.ts)
+   - Added `bulkCreateTracks()` function
+   - Supports batch insertion of multiple tracks
+   - Returns array of created tracks
 
-- [x] Step 9: Testing & Validation (Completed)
-  - [x] Run npm run lint and fix all issues
-  - [x] Test all features end-to-end
-  - [x] Verify responsive design
+3. **Admin Dashboard Integration** (src/pages/AdminDashboardPage.tsx)
+   - Replaced old inline dialog with BulkUploadDialog component
+   - Added `handleSingleUpload()` function
+   - Added `handleBulkUpload()` function with parallel file uploads
+   - Cover image uploaded first, then applied to all tracks
+   - Progress feedback during upload
+   - Success/error toasts with track count
 
-## Notes
-- Using Supabase for backend (PostgreSQL database)
-- Audio files stored in Supabase Storage bucket
-- Username + password authentication (no email verification)
-- First registered user becomes admin automatically
-- Deep purple (#8B5CF6) as primary with dark background (#0F172A)
-- Audio wave visualization using Web Audio API
-- Sample data added for testing (6 music tracks, 4 podcast episodes)
-- All lint checks passed successfully
+### User Experience:
+
+**Single Upload Mode:**
+- Same as before - upload one track at a time
+- Supports both music and podcasts
+- Individual metadata for each track
+
+**Bulk Upload Mode:**
+- Select multiple audio files at once
+- Set common metadata (artist, category)
+- Upload one cover image for all
+- Edit individual track titles
+- Upload all with one click
+- See progress and confirmation
+
+### Technical Details:
+
+- Parallel file uploads using Promise.all
+- Unique timestamps for file naming
+- Proper error handling and validation
+- Clean component separation
+- Type-safe interfaces
+- Responsive dialog with scrollable content

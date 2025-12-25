@@ -106,6 +106,16 @@ export const trackApi = {
     return data;
   },
 
+  async bulkCreateTracks(tracks: Omit<Track, 'id' | 'created_at' | 'updated_at'>[]): Promise<Track[]> {
+    const { data, error } = await supabase
+      .from('tracks')
+      .insert(tracks)
+      .select();
+
+    if (error) throw error;
+    return Array.isArray(data) ? data : [];
+  },
+
   async updateTrack(id: string, updates: Partial<Track>): Promise<Track> {
     const { data, error } = await supabase
       .from('tracks')

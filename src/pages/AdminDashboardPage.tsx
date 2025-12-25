@@ -4,17 +4,14 @@ import { useAuth } from '@/contexts/AuthContext';
 import type { Track, Profile } from '@/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { Upload, Music, Podcast, Users, Trash2, Edit } from 'lucide-react';
+import { Upload, Music, Podcast, Users, Trash2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { BulkUploadDialog, type SingleUploadData, type BulkUploadData } from '@/components/BulkUploadDialog';
 
 export default function AdminDashboardPage() {
   const [tracks, setTracks] = useState<Track[]>([]);
@@ -24,17 +21,6 @@ export default function AdminDashboardPage() {
   const [uploading, setUploading] = useState(false);
   const { profile } = useAuth();
   const { toast } = useToast();
-
-  // Upload form state
-  const [audioFile, setAudioFile] = useState<File | null>(null);
-  const [coverImageFile, setCoverImageFile] = useState<File | null>(null);
-  const [title, setTitle] = useState('');
-  const [artist, setArtist] = useState('');
-  const [podcastName, setPodcastName] = useState('');
-  const [category, setCategory] = useState('');
-  const [musicCategory, setMusicCategory] = useState('');
-  const [contentType, setContentType] = useState<'music' | 'podcast'>('music');
-  const [coverImageUrl, setCoverImageUrl] = useState('');
 
   useEffect(() => {
     if (profile?.role === 'admin') {
@@ -58,8 +44,8 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const handleUploadTrack = async () => {
-    if (!audioFile || !title.trim()) {
+  const handleSingleUpload = async (data: SingleUploadData) => {
+    if (!data.audioFile || !data.title.trim()) {
       toast({
         title: 'Error',
         description: 'Please provide an audio file and title',
@@ -72,24 +58,24 @@ export default function AdminDashboardPage() {
       setUploading(true);
       
       // Upload audio file
-      const fileName = `${Date.now()}_${audioFile.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
-      const fileUrl = await storageApi.uploadAudio(audioFile, fileName);
+      const fileName = `${Date.now()}_${data.audioFile.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+      const fileUrl = await storageApi.uploadAudio(data.audioFile, fileName);
 
       // Upload cover image if provided
-      let uploadedCoverUrl = coverImageUrl.trim() || null;
-      if (coverImageFile) {
-        const coverFileName = `cover_${Date.now()}_${coverImageFile.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
-        uploadedCoverUrl = await storageApi.uploadAudio(coverImageFile, coverFileName);
+      let uploadedCoverUrl = data.coverImageUrl.trim() || null;
+      if (data.coverImageFile) {
+        const coverFileName = `cover_${Date.now()}_${data.coverImageFile.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+        uploadedCoverUrl = await storageApi.uploadAudio(data.coverImageFile, coverFileName);
       }
 
       // Create track record
       await trackApi.createTrack({
-        title: title.trim(),
-        artist: contentType === 'music' ? (artist.trim() || null) : null,
-        podcast_name: contentType === 'podcast' ? (podcastName.trim() || null) : null,
-        category: contentType === 'podcast' ? (category.trim() || null) : null,
-        music_category: contentType === 'music' && musicCategory ? (musicCategory as any) : null,
-        content_type: contentType,
+        title: data.title.trim(),
+        artist: data.contentType === 'music' ? (data.artist.trim() || null) : null,
+        podcast_name: data.contentType === 'podcast' ? (data.podcastName.trim() || null) : null,
+        category: data.contentType === 'podcast' ? (data.category.trim() || null) : null,
+        music_category: data.contentType === 'music' && data.musicCategory ? (data.musicCategory as any) : null,
+        content_type: data.contentType,
         file_path: fileName,
         file_url: fileUrl,
         duration: null,
@@ -101,22 +87,76 @@ export default function AdminDashboardPage() {
         description: 'Track uploaded successfully'
       });
 
-      // Reset form
       setUploadDialogOpen(false);
-      setAudioFile(null);
-      setCoverImageFile(null);
-      setTitle('');
-      setArtist('');
-      setPodcastName('');
-      setCategory('');
-      setMusicCategory('');
-      setCoverImageUrl('');
       loadData();
     } catch (error) {
       console.error('Failed to upload track:', error);
       toast({
         title: 'Error',
         description: 'Failed to upload track',
+        variant: 'destructive'
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleBulkUpload = async (data: BulkUploadData) => {
+    if (data.audioFiles.length === 0 || !data.artist.trim()) {
+      toast({
+        title: 'Error',
+        description: 'Please provide audio files and artist name',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    try {
+      setUploading(true);
+
+      // Upload cover image first if provided
+      let uploadedCoverUrl: string | null = null;
+      if (data.coverImageFile) {
+        const coverFileName = `cover_${Date.now()}_${data.coverImageFile.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+        uploadedCoverUrl = await storageApi.uploadAudio(data.coverImageFile, coverFileName);
+      }
+
+      // Upload all audio files in parallel
+      const uploadPromises = data.audioFiles.map(async (file) => {
+        const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+        const fileUrl = await storageApi.uploadAudio(file, fileName);
+        
+        return {
+          title: data.trackTitles[file.name] || file.name.replace(/\.[^/.]+$/, ''),
+          artist: data.artist.trim(),
+          podcast_name: null,
+          category: null,
+          music_category: data.musicCategory,
+          content_type: 'music' as const,
+          file_path: fileName,
+          file_url: fileUrl,
+          duration: null,
+          cover_image_url: uploadedCoverUrl
+        };
+      });
+
+      const tracksToCreate = await Promise.all(uploadPromises);
+
+      // Bulk insert all tracks
+      await trackApi.bulkCreateTracks(tracksToCreate);
+
+      toast({
+        title: 'Success',
+        description: `Successfully uploaded ${data.audioFiles.length} track${data.audioFiles.length !== 1 ? 's' : ''}`
+      });
+
+      setUploadDialogOpen(false);
+      loadData();
+    } catch (error) {
+      console.error('Failed to bulk upload tracks:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to upload tracks',
         variant: 'destructive'
       });
     } finally {
@@ -191,167 +231,19 @@ export default function AdminDashboardPage() {
     <div className="p-6 xl:p-8">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Upload className="mr-2 h-4 w-4" />
-              Upload Track
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Upload New Track</DialogTitle>
-              <DialogDescription>
-                Upload an audio file and provide metadata
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <Label htmlFor="contentType">Content Type</Label>
-                <Select value={contentType} onValueChange={(v) => setContentType(v as 'music' | 'podcast')}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="music">Music</SelectItem>
-                    <SelectItem value="podcast">Podcast</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="audioFile">Audio File</Label>
-                <Input
-                  id="audioFile"
-                  type="file"
-                  accept="audio/*"
-                  onChange={(e) => setAudioFile(e.target.files?.[0] || null)}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="title">Title</Label>
-                <Input
-                  id="title"
-                  placeholder="Track title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </div>
-              {contentType === 'music' && (
-                <div className="space-y-2">
-                  <Label htmlFor="artist">Artist</Label>
-                  <Input
-                    id="artist"
-                    placeholder="Artist name"
-                    value={artist}
-                    onChange={(e) => setArtist(e.target.value)}
-                  />
-                </div>
-              )}
-              {contentType === 'podcast' && (
-                <div className="space-y-2">
-                  <Label htmlFor="podcastName">Podcast Name</Label>
-                  <Input
-                    id="podcastName"
-                    placeholder="Podcast name"
-                    value={podcastName}
-                    onChange={(e) => setPodcastName(e.target.value)}
-                  />
-                </div>
-              )}
-              
-              {/* Music Category Selector */}
-              {contentType === 'music' && (
-                <div className="space-y-2">
-                  <Label htmlFor="musicCategory">Music Category</Label>
-                  <Select value={musicCategory} onValueChange={setMusicCategory}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="phonk">Phonk</SelectItem>
-                      <SelectItem value="bollywood">Bollywood</SelectItem>
-                      <SelectItem value="hollywood">Hollywood</SelectItem>
-                      <SelectItem value="romantic">Romantic</SelectItem>
-                      <SelectItem value="gym">Gym</SelectItem>
-                      <SelectItem value="casual">Casual</SelectItem>
-                      <SelectItem value="funny">Funny</SelectItem>
-                      <SelectItem value="pop">Pop</SelectItem>
-                      <SelectItem value="rock">Rock</SelectItem>
-                      <SelectItem value="hip-hop">Hip-Hop</SelectItem>
-                      <SelectItem value="electronic">Electronic</SelectItem>
-                      <SelectItem value="jazz">Jazz</SelectItem>
-                      <SelectItem value="classical">Classical</SelectItem>
-                      <SelectItem value="country">Country</SelectItem>
-                      <SelectItem value="r&b">R&B</SelectItem>
-                      <SelectItem value="indie">Indie</SelectItem>
-                      <SelectItem value="folk">Folk</SelectItem>
-                      <SelectItem value="metal">Metal</SelectItem>
-                      <SelectItem value="blues">Blues</SelectItem>
-                      <SelectItem value="reggae">Reggae</SelectItem>
-                      <SelectItem value="latin">Latin</SelectItem>
-                      <SelectItem value="k-pop">K-Pop</SelectItem>
-                      <SelectItem value="anime">Anime</SelectItem>
-                      <SelectItem value="lo-fi">Lo-Fi</SelectItem>
-                      <SelectItem value="chill">Chill</SelectItem>
-                      <SelectItem value="party">Party</SelectItem>
-                      <SelectItem value="workout">Workout</SelectItem>
-                      <SelectItem value="study">Study</SelectItem>
-                      <SelectItem value="sleep">Sleep</SelectItem>
-                      <SelectItem value="meditation">Meditation</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-
-              {/* Podcast Category Input */}
-              {contentType === 'podcast' && (
-                <div className="space-y-2">
-                  <Label htmlFor="category">Podcast Category (Optional)</Label>
-                  <Input
-                    id="category"
-                    placeholder="e.g., Technology, Business, Comedy"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                  />
-                </div>
-              )}
-
-              {/* Cover Image Upload */}
-              <div className="space-y-2">
-                <Label htmlFor="coverImage">Cover Image</Label>
-                <Input
-                  id="coverImage"
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setCoverImageFile(e.target.files?.[0] || null)}
-                />
-                <p className="text-xs text-muted-foreground">
-                  Upload a cover image or provide a URL below
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="coverImageUrl">Or Cover Image URL</Label>
-                <Input
-                  id="coverImageUrl"
-                  placeholder="https://example.com/cover.jpg"
-                  value={coverImageUrl}
-                  onChange={(e) => setCoverImageUrl(e.target.value)}
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setUploadDialogOpen(false)}>
-                Cancel
-              </Button>
-              <Button onClick={handleUploadTrack} disabled={uploading}>
-                {uploading ? 'Uploading...' : 'Upload'}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <Button onClick={() => setUploadDialogOpen(true)}>
+          <Upload className="mr-2 h-4 w-4" />
+          Upload Music
+        </Button>
       </div>
+
+      <BulkUploadDialog
+        open={uploadDialogOpen}
+        onOpenChange={setUploadDialogOpen}
+        onSingleUpload={handleSingleUpload}
+        onBulkUpload={handleBulkUpload}
+        uploading={uploading}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <Card>
