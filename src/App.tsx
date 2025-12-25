@@ -10,6 +10,7 @@ import { RouteGuard } from '@/components/common/RouteGuard';
 import { Toaster } from '@/components/ui/toaster';
 import MainLayout from '@/components/layouts/MainLayout';
 import AudioPlayer from '@/components/AudioPlayer';
+import { FluidBackground } from '@/components/FluidBackground';
 
 function AppContent() {
   const location = useLocation();
@@ -17,6 +18,7 @@ function AppContent() {
 
   return (
     <>
+      <FluidBackground />
       {isAuthPage ? (
         <Routes>
           {routes.map((route, index) => (
