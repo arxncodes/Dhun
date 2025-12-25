@@ -14,7 +14,9 @@ import {
   Repeat,
   Repeat1,
   ListMusic,
-  Plus
+  Plus,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import { AddToPlaylistDialog } from './AddToPlaylistDialog';
 
@@ -68,6 +70,7 @@ export default function AudioPlayer() {
   const [isMuted, setIsMuted] = useState(false);
   const [previousVolume, setPreviousVolume] = useState(volume);
   const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const toggleMute = () => {
     if (isMuted) {
@@ -90,13 +93,71 @@ export default function AudioPlayer() {
   if (!currentTrack) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border z-50">
-      <div className="container mx-auto">
-        {/* Wave Visualizer */}
-        <AudioWaveVisualizer isPlaying={isPlaying} />
+    <div 
+      className={`fixed bottom-0 left-0 right-0 bg-card border-t border-border z-50 transition-transform duration-300 ease-in-out ${
+        isCollapsed ? 'translate-y-[calc(100%-3.5rem)]' : 'translate-y-0'
+      }`}
+    >
+      {/* Toggle Button */}
+      <div className="absolute top-2 right-4 z-10">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="h-8 w-8 rounded-full bg-secondary/80 hover:bg-secondary"
+          title={isCollapsed ? 'Expand player' : 'Collapse player'}
+        >
+          {isCollapsed ? (
+            <ChevronUp className="h-4 w-4" />
+          ) : (
+            <ChevronDown className="h-4 w-4" />
+          )}
+        </Button>
+      </div>
 
-        {/* Player Controls */}
-        <div className="flex flex-col xl:flex-row items-center gap-4 p-4">
+      <div className="container mx-auto">
+        {/* Collapsed Mini Player */}
+        {isCollapsed && (
+          <div className="flex items-center gap-3 p-3 pr-16">
+            {currentTrack.cover_image_url && (
+              <img
+                src={currentTrack.cover_image_url}
+                alt={currentTrack.title}
+                className="w-10 h-10 rounded-lg object-cover"
+              />
+            )}
+            <div className="min-w-0 flex-1">
+              <p className="font-medium truncate text-sm">{currentTrack.title}</p>
+              <p className="text-xs text-muted-foreground truncate">
+                {currentTrack.content_type === 'music' 
+                  ? currentTrack.artist 
+                  : currentTrack.podcast_name}
+              </p>
+            </div>
+            <Button
+              variant="default"
+              size="icon"
+              onClick={togglePlayPause}
+              className="h-9 w-9 shrink-0"
+              title={isPlaying ? 'Pause' : 'Play'}
+            >
+              {isPlaying ? (
+                <Pause className="h-5 w-5" />
+              ) : (
+                <Play className="h-5 w-5" />
+              )}
+            </Button>
+          </div>
+        )}
+
+        {/* Full Player */}
+        {!isCollapsed && (
+          <>
+            {/* Wave Visualizer */}
+            <AudioWaveVisualizer isPlaying={isPlaying} />
+
+            {/* Player Controls */}
+            <div className="flex flex-col xl:flex-row items-center gap-4 p-4">
           {/* Track Info */}
           <div className="flex items-center gap-3 min-w-0 flex-1">
             {currentTrack.cover_image_url && (
@@ -243,6 +304,8 @@ export default function AudioPlayer() {
             />
           </div>
         </div>
+          </>
+        )}
       </div>
 
       {/* Add to Playlist Dialog */}

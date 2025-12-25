@@ -17,7 +17,8 @@ import {
   LogOut,
   Settings,
   Sun,
-  Moon
+  Moon,
+  Info
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -29,6 +30,7 @@ const navigation = [
   { name: 'Playlists', href: '/playlists', icon: ListMusic },
   { name: 'Favorites', href: '/favorites', icon: Heart },
   { name: 'Recently Played', href: '/recent', icon: Clock },
+  { name: 'Credits', href: '/credits', icon: Info },
 ];
 
 const adminNavigation = [

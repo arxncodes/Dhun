@@ -9,6 +9,7 @@ import RecentlyPlayedPage from './pages/RecentlyPlayedPage';
 import PlaylistsPage from './pages/PlaylistsPage';
 import PlaylistDetailPage from './pages/PlaylistDetailPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
+import CreditsPage from './pages/CreditsPage';
 import type { ReactNode } from 'react';
 
 interface RouteConfig {
@@ -73,6 +74,11 @@ const routes: RouteConfig[] = [
     name: 'Admin Dashboard',
     path: '/admin',
     element: <AdminDashboardPage />
+  },
+  {
+    name: 'Credits',
+    path: '/credits',
+    element: <CreditsPage />
   }
 ];
 

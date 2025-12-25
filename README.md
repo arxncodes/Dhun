@@ -2,7 +2,7 @@
 
 A modern, full-featured music and podcast streaming web application with light/dark theme support.
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue)
+![Version](https://img.shields.io/badge/version-2.1.0-blue)
 ![React](https://img.shields.io/badge/React-18.3-61dafb)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178c6)
 ![Supabase](https://img.shields.io/badge/Supabase-Latest-3ecf8e)
@@ -13,6 +13,7 @@ A modern, full-featured music and podcast streaming web application with light/d
 - **Music Streaming** - Browse and stream music tracks with high-quality playback
 - **Podcast Streaming** - Listen to podcast episodes
 - **Audio Wave Visualization** - Real-time animated audio wave display
+- **Collapsible Audio Player** - Minimize player while music continues playing
 - **Search** - Powerful search across all content
 - **Playlists** - Create and manage custom playlists
 - **Favorites** - Like and save your favorite tracks
@@ -23,12 +24,19 @@ A modern, full-featured music and podcast streaming web application with light/d
 - **Responsive Design** - Seamless experience on desktop and mobile
 - **Modern UI** - Clean interface with smooth animations
 - **Audio Controls** - Full playback controls with seek, volume, and mute
+- **Collapsible Player** - Slide-down/slide-up animations for space-saving
+- **Credits Page** - View developer information and technology stack
 
 ### 👨‍💼 Admin Features
 - **Upload Tracks** - Upload music and podcast files
 - **Manage Content** - Edit metadata and manage library
 - **User Management** - Control user roles and permissions
 - **Analytics Dashboard** - View content statistics
+
+### 🚀 Deployment
+- **GitHub Pages Ready** - Pre-configured for easy deployment
+- **Automated CI/CD** - GitHub Actions workflow included
+- **SPA Routing Support** - Client-side routing works on static hosting
 
 ## 🚀 Quick Start
 
@@ -127,7 +135,7 @@ src/
 │   │   └── MainLayout.tsx
 │   ├── ui/               # shadcn/ui components
 │   ├── common/           # Shared components
-│   └── AudioPlayer.tsx   # Audio player component
+│   └── AudioPlayer.tsx   # Collapsible audio player
 ├── contexts/
 │   ├── AuthContext.tsx   # Authentication
 │   ├── AudioPlayerContext.tsx  # Audio state
@@ -143,10 +151,19 @@ src/
 │   ├── SearchPage.tsx
 │   ├── FavoritesPage.tsx
 │   ├── PlaylistsPage.tsx
-│   └── AdminDashboardPage.tsx
+│   ├── AdminDashboardPage.tsx
+│   └── CreditsPage.tsx   # Credits & about page
 ├── types/                # TypeScript types
 ├── hooks/                # Custom hooks
 └── lib/                  # Utilities
+
+.github/
+└── workflows/
+    └── deploy.yml        # GitHub Actions deployment
+
+public/
+├── .nojekyll            # GitHub Pages config
+└── 404.html             # SPA routing handler
 ```
 
 ## 🗄️ Database Schema
@@ -171,6 +188,9 @@ src/
 - Like/favorite button
 - Real-time wave visualization (40 animated bars)
 - Resume playback from last position
+- **Collapsible interface** - Minimize player with slide animations
+- **Mini player mode** - Shows track info and play/pause when collapsed
+- **Continuous playback** - Music never stops when toggling states
 
 ### Playlists
 - Create unlimited playlists
@@ -263,7 +283,28 @@ npm run preview
 
 ## 🚀 Deployment
 
-### Frontend (Vercel/Netlify)
+### GitHub Pages (Recommended)
+
+The application is pre-configured for GitHub Pages deployment with automated CI/CD.
+
+**Quick Setup:**
+1. Push code to GitHub repository
+2. Go to **Settings** → **Pages** → Select **GitHub Actions** as source
+3. Push to `main` branch triggers automatic deployment
+4. Access at: `https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/`
+
+**Documentation:**
+- See `GITHUB_PAGES_QUICK_SETUP.md` for 3-step setup guide
+- See `GITHUB_PAGES_DEPLOYMENT.md` for comprehensive documentation
+
+**Features:**
+- ✅ Automated deployment via GitHub Actions
+- ✅ Client-side routing support (BrowserRouter)
+- ✅ Environment variables via GitHub Secrets
+- ✅ Custom domain support
+- ✅ Production-optimized builds
+
+### Alternative Hosting (Vercel/Netlify)
 1. Connect repository
 2. Set build command: `npm run build`
 3. Set output directory: `dist`
@@ -273,7 +314,10 @@ npm run preview
 ```env
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_APP_ID=your_app_id
 ```
+
+For GitHub Pages, add these as **Secrets** in repository settings.
 
 ## 🐛 Troubleshooting
 
