@@ -93,7 +93,46 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    animation: fluidBackground 20s ease-in-out infinite;
+  }
+
+  /* Light theme fluid background */
+  body::before {
+    background: linear-gradient(
+      135deg,
+      hsl(180, 70%, 85%) 0%,
+      hsl(190, 80%, 90%) 25%,
+      hsl(0, 0%, 100%) 50%,
+      hsl(180, 60%, 88%) 75%,
+      hsl(190, 75%, 92%) 100%
+    );
+    background-size: 400% 400%;
+  }
+
+  /* Dark theme fluid background */
+  .dark body::before {
+    background: linear-gradient(
+      135deg,
+      hsl(222, 47%, 11%) 0%,
+      hsl(230, 40%, 15%) 25%,
+      hsl(217, 33%, 17%) 50%,
+      hsl(225, 35%, 13%) 75%,
+      hsl(220, 45%, 12%) 100%
+    );
+    background-size: 400% 400%;
   }
 }
 
@@ -123,6 +162,24 @@ All colors MUST be HSL.
     }
     50% {
       transform: scaleX(1);
+    }
+  }
+
+  @keyframes fluidBackground {
+    0% {
+      background-position: 0% 50%;
+    }
+    25% {
+      background-position: 50% 75%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    75% {
+      background-position: 50% 25%;
+    }
+    100% {
+      background-position: 0% 50%;
     }
   }
 
