@@ -19,36 +19,13 @@ import {
   ChevronUp
 } from 'lucide-react';
 import { AddToPlaylistDialog } from './AddToPlaylistDialog';
+import { AudioReactiveWave } from './AudioReactiveWave';
 
 function formatTime(seconds: number): string {
   if (!isFinite(seconds)) return '0:00';
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
   return `${mins}:${secs.toString().padStart(2, '0')}`;
-}
-
-function AudioWaveVisualizer({ isPlaying }: { isPlaying: boolean }) {
-  const bars = 40;
-  
-  return (
-    <div className="flex items-center justify-center gap-1 h-16 px-4">
-      {Array.from({ length: bars }).map((_, i) => {
-        const randomHeight = Math.random() * 60 + 20;
-        const randomDuration = 0.6 + Math.random() * 0.4;
-        return (
-          <div
-            key={i}
-            className={`w-1 rounded-full transition-all ${isPlaying ? 'wave-bar' : 'bg-muted'}`}
-            style={{
-              height: isPlaying ? `${randomHeight}%` : '20%',
-              animationDelay: `${i * 0.05}s`,
-              animationDuration: `${randomDuration}s`
-            }}
-          />
-        );
-      })}
-    </div>
-  );
 }
 
 export default function AudioPlayer() {
@@ -68,7 +45,8 @@ export default function AudioPlayer() {
     playNext,
     playPrevious,
     toggleShuffle,
-    toggleRepeat
+    toggleRepeat,
+    audioRef
   } = useAudioPlayer();
 
   const [isMuted, setIsMuted] = useState(false);
@@ -158,7 +136,11 @@ export default function AudioPlayer() {
         {!isCollapsed && (
           <>
             {/* Wave Visualizer */}
-            <AudioWaveVisualizer isPlaying={isPlaying} />
+            <AudioReactiveWave 
+              audioElement={audioRef.current} 
+              isPlaying={isPlaying}
+              barCount={50}
+            />
 
             {/* Player Controls */}
             <div className="flex flex-col xl:flex-row items-center gap-4 p-4">
