@@ -1,91 +1,328 @@
-# Welcome to Your Miaoda Project
+# Dhun 🎵
 
-## Project Info
+A modern, full-featured music and podcast streaming web application with light/dark theme support.
 
-## Project Directory
+![Version](https://img.shields.io/badge/version-2.0.0-blue)
+![React](https://img.shields.io/badge/React-18.3-61dafb)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178c6)
+![Supabase](https://img.shields.io/badge/Supabase-Latest-3ecf8e)
+
+## ✨ Features
+
+### 🎵 Core Features
+- **Music Streaming** - Browse and stream music tracks with high-quality playback
+- **Podcast Streaming** - Listen to podcast episodes
+- **Audio Wave Visualization** - Real-time animated audio wave display
+- **Search** - Powerful search across all content
+- **Playlists** - Create and manage custom playlists
+- **Favorites** - Like and save your favorite tracks
+- **Recently Played** - Track your listening history with resume functionality
+
+### 🎨 User Experience
+- **Light/Dark Theme** - Toggle between light and dark modes
+- **Responsive Design** - Seamless experience on desktop and mobile
+- **Modern UI** - Clean interface with smooth animations
+- **Audio Controls** - Full playback controls with seek, volume, and mute
+
+### 👨‍💼 Admin Features
+- **Upload Tracks** - Upload music and podcast files
+- **Manage Content** - Edit metadata and manage library
+- **User Management** - Control user roles and permissions
+- **Analytics Dashboard** - View content statistics
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ and npm/pnpm
+- Supabase account (already configured)
+
+### Installation
+
+1. **Install Dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Start Development Server**
+   ```bash
+   npm run dev -- --host 127.0.0.1
+   ```
+
+3. **Open in Browser**
+   ```
+   http://127.0.0.1:5173
+   ```
+
+### First Time Setup
+
+1. **Register Account**
+   - Click "Sign up" on the login page
+   - Enter a username and password
+   - First user automatically becomes admin
+
+2. **Explore Content**
+   - Browse 6 sample music tracks
+   - Listen to 4 sample podcast episodes
+   - Create your first playlist
+
+3. **Toggle Theme**
+   - Click the theme button in the sidebar
+   - Choose between light and dark modes
+
+## 📖 Documentation
+
+- **[QUICK_START.md](./QUICK_START.md)** - Get started in 3 steps
+- **[USAGE_GUIDE.md](./USAGE_GUIDE.md)** - Complete user and admin guide
+- **[PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)** - Technical overview
+- **[THEME_DOCUMENTATION.md](./THEME_DOCUMENTATION.md)** - Theme system details
+- **[UPDATE_SUMMARY.md](./UPDATE_SUMMARY.md)** - Recent changes and updates
+
+## 🎨 Theme System
+
+### Light Theme
+- Clean white backgrounds
+- Dark text for readability
+- Purple accents (#8B5CF6)
+- Subtle borders and shadows
+
+### Dark Theme
+- Dark navy backgrounds (#0F172A)
+- Light text for contrast
+- Purple accents (#8B5CF6)
+- Elevated cards and components
+
+### Features
+- ⚡ Instant theme switching
+- 💾 Persistent preference (localStorage)
+- 🖥️ System preference detection
+- ♿ WCAG AA compliant contrast
+
+## 🛠️ Technology Stack
+
+### Frontend
+- **React 18.3** - UI framework
+- **TypeScript 5.6** - Type safety
+- **Vite** - Build tool
+- **Tailwind CSS** - Styling
+- **shadcn/ui** - Component library
+- **Radix UI** - Accessible primitives
+
+### Backend
+- **Supabase** - Backend as a service
+  - PostgreSQL database
+  - Authentication
+  - Storage
+  - Row Level Security
+
+### Audio
+- **HTML5 Audio API** - Playback
+- **Web Audio API** - Wave visualization
+
+## 📁 Project Structure
 
 ```
-├── README.md # Documentation
-├── components.json # Component library configuration
-├── index.html # Entry file
-├── package.json # Package management
-├── postcss.config.js # PostCSS configuration
-├── public # Static resources directory
-│   ├── favicon.png # Icon
-│   └── images # Image resources
-├── src # Source code directory
-│   ├── App.tsx # Entry file
-│   ├── components # Components directory
-│   ├── context # Context directory
-│   ├── db # Database configuration directory
-│   ├── hooks # Common hooks directory
-│   ├── index.css # Global styles
-│   ├── layout # Layout directory
-│   ├── lib # Utility library directory
-│   ├── main.tsx # Entry file
-│   ├── routes.tsx # Routing configuration
-│   ├── pages # Pages directory
-│   ├── services # Database interaction directory
-│   ├── types # Type definitions directory
-├── tsconfig.app.json # TypeScript frontend configuration file
-├── tsconfig.json # TypeScript configuration file
-├── tsconfig.node.json # TypeScript Node.js configuration file
-└── vite.config.ts # Vite configuration file
+src/
+├── components/
+│   ├── layouts/          # Layout components
+│   │   └── MainLayout.tsx
+│   ├── ui/               # shadcn/ui components
+│   ├── common/           # Shared components
+│   └── AudioPlayer.tsx   # Audio player component
+├── contexts/
+│   ├── AuthContext.tsx   # Authentication
+│   ├── AudioPlayerContext.tsx  # Audio state
+│   └── ThemeContext.tsx  # Theme management
+├── db/
+│   ├── supabase.ts       # Supabase client
+│   └── api.ts            # Database API
+├── pages/                # Page components
+│   ├── HomePage.tsx
+│   ├── LoginPage.tsx
+│   ├── MusicPage.tsx
+│   ├── PodcastsPage.tsx
+│   ├── SearchPage.tsx
+│   ├── FavoritesPage.tsx
+│   ├── PlaylistsPage.tsx
+│   └── AdminDashboardPage.tsx
+├── types/                # TypeScript types
+├── hooks/                # Custom hooks
+└── lib/                  # Utilities
 ```
 
-## Tech Stack
+## 🗄️ Database Schema
 
-Vite, TypeScript, React, Supabase
+### Tables
+- **profiles** - User accounts and roles
+- **tracks** - Music and podcast metadata
+- **playlists** - User-created playlists
+- **playlist_tracks** - Playlist-track relationships
+- **favorites** - Liked tracks
+- **recently_played** - Listening history
 
-## Development Guidelines
+### Storage
+- **audio-files** - Audio file storage bucket
 
-### How to edit code locally?
+## 🎯 Key Features Explained
 
-You can choose [VSCode](https://code.visualstudio.com/Download) or any IDE you prefer. The only requirement is to have Node.js and npm installed.
+### Audio Player
+- Play/pause controls
+- Seek bar with progress tracking
+- Volume control with mute
+- Like/favorite button
+- Real-time wave visualization (40 animated bars)
+- Resume playback from last position
 
-### Environment Requirements
+### Playlists
+- Create unlimited playlists
+- Add/remove tracks
+- Reorder tracks (drag & drop ready)
+- Share playlists (future feature)
 
+### Search
+- Search by title, artist, or podcast name
+- Filter by content type (All, Music, Podcasts)
+- Real-time results
+- Debounced input for performance
+
+### Admin Dashboard
+- Upload audio files to Supabase Storage
+- Add metadata (title, artist, category, cover image)
+- View all tracks with management options
+- Delete tracks
+- Manage user roles
+- View statistics (total tracks, users, playlists)
+
+## 🔐 Authentication
+
+### Username-Based Login
+- No email required
+- Username + password authentication
+- Automatic admin role for first user
+- Secure password hashing
+- Session management via Supabase Auth
+
+### Role-Based Access
+- **User** - Browse, play, create playlists, like tracks
+- **Admin** - All user features + content management + user management
+
+## 📱 Responsive Design
+
+### Desktop (1920x1080, 1366x768)
+- Sidebar navigation
+- Grid layouts (4-6 columns)
+- Full audio player controls
+
+### Mobile (375x667, 414x896)
+- Hamburger menu
+- Responsive grids (2 columns)
+- Touch-optimized controls
+
+## 🎨 Design System
+
+### Colors
+- **Primary**: Deep Purple (#8B5CF6)
+- **Background**: White (light) / Dark Navy (dark)
+- **Accent**: Purple variations
+- **Charts**: Purple, Pink, Teal, Yellow
+
+### Typography
+- **Font**: System font stack
+- **Sizes**: Responsive scale (text-sm to text-5xl)
+- **Weights**: 400 (normal), 500 (medium), 600 (semibold), 700 (bold)
+
+### Spacing
+- **Base**: 4px (0.25rem)
+- **Scale**: 0, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64
+
+## 🧪 Development
+
+### Available Scripts
+
+```bash
+# Development server
+npm run dev
+
+# Type checking
+npm run type-check
+
+# Linting
+npm run lint
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
-# Node.js ≥ 20
-# npm ≥ 10
-Example:
-# node -v   # v20.18.3
-# npm -v    # 10.8.2
+
+### Code Quality
+- ESLint for code linting
+- TypeScript for type safety
+- Prettier for code formatting (recommended)
+- Git hooks for pre-commit checks (optional)
+
+## 🚀 Deployment
+
+### Frontend (Vercel/Netlify)
+1. Connect repository
+2. Set build command: `npm run build`
+3. Set output directory: `dist`
+4. Add environment variables
+
+### Environment Variables
+```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-### Installing Node.js on Windows
+## 🐛 Troubleshooting
 
-```
-# Step 1: Visit the Node.js official website: https://nodejs.org/, click download. The website will automatically suggest a suitable version (32-bit or 64-bit) for your system.
-# Step 2: Run the installer: Double-click the downloaded installer to run it.
-# Step 3: Complete the installation: Follow the installation wizard to complete the process.
-# Step 4: Verify installation: Open Command Prompt (cmd) or your IDE terminal, and type `node -v` and `npm -v` to check if Node.js and npm are installed correctly.
-```
+### Audio Not Playing
+- Check browser audio permissions
+- Verify audio file URLs are accessible
+- Try a different browser (Chrome recommended)
 
-### Installing Node.js on macOS
+### Theme Not Persisting
+- Check localStorage is enabled
+- Clear browser cache
+- Try incognito mode
 
-```
-# Step 1: Using Homebrew (Recommended method): Open Terminal. Type the command `brew install node` and press Enter. If Homebrew is not installed, you need to install it first by running the following command in Terminal:
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-Alternatively, use the official installer: Visit the Node.js official website. Download the macOS .pkg installer. Open the downloaded .pkg file and follow the prompts to complete the installation.
-# Step 2: Verify installation: Open Command Prompt (cmd) or your IDE terminal, and type `node -v` and `npm -v` to check if Node.js and npm are installed correctly.
-```
+### Upload Failing
+- Ensure you're logged in as admin
+- Check file size (keep under 10MB)
+- Verify Supabase storage bucket exists
 
-### After installation, follow these steps:
+## 📝 License
 
-```
-# Step 1: Download the code package
-# Step 2: Extract the code package
-# Step 3: Open the code package with your IDE and navigate into the code directory
-# Step 4: In the IDE terminal, run the command to install dependencies: npm i
-# Step 5: In the IDE terminal, run the command to start the development server: npm run dev -- --host 127.0.0.1
-# Step 6: if step 5 failed, try this command to start the development server: npx vite --host 127.0.0.1
-```
+Copyright © 2025 Dhun. All rights reserved.
 
-### How to develop backend services?
+## 🤝 Contributing
 
-Configure environment variables and install relevant dependencies.If you need to use a database, please use the official version of Supabase.
+This is a demonstration project. For production use, consider:
+- Adding comprehensive tests
+- Implementing CI/CD pipeline
+- Adding error tracking (Sentry)
+- Performance monitoring
+- SEO optimization
+- PWA features
 
-## Learn More
+## 📞 Support
 
-You can also check the help documentation: Download and Building the app（ [https://intl.cloud.baidu.com/en/doc/MIAODA/s/download-and-building-the-app-en](https://intl.cloud.baidu.com/en/doc/MIAODA/s/download-and-building-the-app-en)）to learn more detailed content.
+For issues or questions:
+1. Check the documentation files
+2. Review the troubleshooting section
+3. Check browser console for errors
+
+## 🎉 Acknowledgments
+
+- **shadcn/ui** - Beautiful component library
+- **Supabase** - Backend infrastructure
+- **Radix UI** - Accessible primitives
+- **Lucide** - Icon library
+- **Tailwind CSS** - Utility-first CSS
+
+---
+
+**Built with ❤️ using React, TypeScript, and Supabase**
+
+**Enjoy streaming with Dhun! 🎵🎙️**

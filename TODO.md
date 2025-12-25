@@ -1,4 +1,4 @@
-# Task: Build Melody Stream - Music & Podcast Streaming Web Application
+# Task: Build Dhun - Music & Podcast Streaming Web Application
 
 ## Plan
 

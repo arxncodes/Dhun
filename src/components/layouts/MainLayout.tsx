@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -15,7 +16,8 @@ import {
   Menu,
   LogOut,
   Settings,
-  User
+  Sun,
+  Moon
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -36,13 +38,14 @@ const adminNavigation = [
 function SidebarContent() {
   const location = useLocation();
   const { profile, signOut } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const isAdmin = profile?.role === 'admin';
 
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center gap-2 p-6 border-b border-border">
         <Music className="h-8 w-8 text-primary" />
-        <span className="text-xl font-bold gradient-text">Melody Stream</span>
+        <span className="text-xl font-bold gradient-text">Dhun</span>
       </div>
 
       <ScrollArea className="flex-1 px-3 py-4">
@@ -90,8 +93,8 @@ function SidebarContent() {
         </nav>
       </ScrollArea>
 
-      <div className="border-t border-border p-4">
-        <div className="flex items-center gap-3 mb-3">
+      <div className="border-t border-border p-4 space-y-3">
+        <div className="flex items-center gap-3">
           <Avatar className="h-10 w-10">
             <AvatarFallback className="bg-primary text-primary-foreground">
               {profile?.username?.[0]?.toUpperCase() || 'U'}
@@ -102,15 +105,35 @@ function SidebarContent() {
             <p className="text-xs text-muted-foreground capitalize">{profile?.role}</p>
           </div>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          className="w-full"
-          onClick={() => signOut()}
-        >
-          <LogOut className="h-4 w-4 mr-2" />
-          Sign Out
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={toggleTheme}
+            className="flex-1"
+          >
+            {theme === 'light' ? (
+              <>
+                <Moon className="h-4 w-4 mr-2" />
+                Dark
+              </>
+            ) : (
+              <>
+                <Sun className="h-4 w-4 mr-2" />
+                Light
+              </>
+            )}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => signOut()}
+            className="flex-1"
+          >
+            <LogOut className="h-4 w-4 mr-2" />
+            Sign Out
+          </Button>
+        </div>
       </div>
     </div>
   );

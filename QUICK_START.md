@@ -1,4 +1,4 @@
-# Melody Stream - Quick Start Guide
+# Dhun - Quick Start Guide
 
 ## 🚀 Getting Started in 3 Steps
 
@@ -174,4 +174,4 @@ The app comes with 10 sample tracks:
 
 ---
 
-**Enjoy streaming with Melody Stream! 🎵🎙️**
+**Enjoy streaming with Dhun! 🎵🎙️**

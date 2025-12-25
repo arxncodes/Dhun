@@ -1,4 +1,4 @@
-# Melody Stream - Music & Podcast Streaming Platform
+# Dhun - Music & Podcast Streaming Platform
 
 A full-featured music and podcast streaming web application built with React, TypeScript, and Supabase.
 
@@ -12,6 +12,7 @@ A full-featured music and podcast streaming web application built with React, Ty
 - 🕐 **Recently Played** - View your listening history
 - 📝 **Playlists** - Create and manage custom playlists
 - 🎨 **Audio Wave Visualization** - Real-time animated audio wave display
+- 🌓 **Light/Dark Theme** - Toggle between light and dark modes
 - 📱 **Responsive Design** - Works seamlessly on desktop and mobile devices
 
 ### Admin Features
@@ -186,7 +187,7 @@ The application comes with sample tracks for testing:
 
 ## License
 
-Copyright 2025 Melody Stream
+Copyright 2025 Dhun
 
 ## Support
 

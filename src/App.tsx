@@ -5,6 +5,7 @@ import routes from './routes';
 
 import { AuthProvider } from '@/contexts/AuthContext';
 import { AudioPlayerProvider } from '@/contexts/AudioPlayerContext';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 import { RouteGuard } from '@/components/common/RouteGuard';
 import { Toaster } from '@/components/ui/toaster';
 import MainLayout from '@/components/layouts/MainLayout';
@@ -50,13 +51,15 @@ function AppContent() {
 const App: React.FC = () => {
   return (
     <Router>
-      <AuthProvider>
-        <AudioPlayerProvider>
-          <RouteGuard>
-            <AppContent />
-          </RouteGuard>
-        </AudioPlayerProvider>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <AudioPlayerProvider>
+            <RouteGuard>
+              <AppContent />
+            </RouteGuard>
+          </AudioPlayerProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </Router>
   );
 };

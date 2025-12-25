@@ -61,7 +61,7 @@ export default function HomePage() {
       <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-primary/20 via-chart-2/20 to-chart-3/20 p-8 xl:p-12">
         <div className="relative z-10">
           <h1 className="text-4xl xl:text-5xl font-bold mb-4 gradient-text">
-            Welcome to Melody Stream
+            Welcome to Dhun
           </h1>
           <p className="text-lg text-muted-foreground mb-6 max-w-2xl">
             Discover and stream your favorite music and podcasts. Create playlists, explore new content, and enjoy seamless playback.

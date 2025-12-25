@@ -1,7 +1,7 @@
-# Melody Stream - Project Summary
+# Dhun - Project Summary
 
 ## Application Overview
-Melody Stream is a full-featured music and podcast streaming web application with user authentication, audio playback, playlist management, and admin content management capabilities.
+Dhun is a full-featured music and podcast streaming web application with user authentication, audio playback, playlist management, and admin content management capabilities.
 
 ## Key Features Implemented
 
@@ -195,4 +195,4 @@ src/
 - Modern mobile browsers
 
 ## Conclusion
-Melody Stream is a fully functional music and podcast streaming platform with a modern UI, robust backend, and comprehensive feature set. The application demonstrates best practices in React development, TypeScript usage, and Supabase integration.
+Dhun is a fully functional music and podcast streaming platform with a modern UI, robust backend, and comprehensive feature set. The application demonstrates best practices in React development, TypeScript usage, and Supabase integration.
