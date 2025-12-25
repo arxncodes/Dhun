@@ -1,22 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useAudioPlayer } from '@/contexts/AudioPlayerContext';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
-import { 
-  Play, 
-  Pause, 
-  Heart, 
-  Volume2, 
-  VolumeX, 
-  SkipBack, 
-  SkipForward,
-  Shuffle,
-  Repeat,
-  Repeat1,
-  ListMusic,
-  Plus
-} from 'lucide-react';
-import { AddToPlaylistDialog } from './AddToPlaylistDialog';
+import { Play, Pause, Heart, Volume2, VolumeX } from 'lucide-react';
 
 function formatTime(seconds: number): string {
   if (!isFinite(seconds)) return '0:00';
@@ -53,21 +39,14 @@ export default function AudioPlayer() {
     currentTime,
     duration,
     isFavorite,
-    shuffle,
-    repeatMode,
     togglePlayPause,
     setVolume,
     seekTo,
-    toggleFavorite,
-    playNext,
-    playPrevious,
-    toggleShuffle,
-    toggleRepeat
+    toggleFavorite
   } = useAudioPlayer();
 
   const [isMuted, setIsMuted] = useState(false);
   const [previousVolume, setPreviousVolume] = useState(volume);
-  const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
 
   const toggleMute = () => {
     if (isMuted) {
@@ -79,13 +58,6 @@ export default function AudioPlayer() {
       setIsMuted(true);
     }
   };
-
-  const getRepeatIcon = () => {
-    if (repeatMode === 'one') return Repeat1;
-    return Repeat;
-  };
-
-  const RepeatIcon = getRepeatIcon();
 
   if (!currentTrack) return null;
 
@@ -114,88 +86,32 @@ export default function AudioPlayer() {
                   : currentTrack.podcast_name}
               </p>
             </div>
-            <div className="flex items-center gap-1 shrink-0">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleFavorite}
-                title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-              >
-                <Heart
-                  className={`h-5 w-5 ${isFavorite ? 'fill-primary text-primary' : ''}`}
-                />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setShowAddToPlaylist(true)}
-                title="Add to playlist"
-              >
-                <Plus className="h-5 w-5" />
-              </Button>
-            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleFavorite}
+              className="shrink-0"
+            >
+              <Heart
+                className={`h-5 w-5 ${isFavorite ? 'fill-primary text-primary' : ''}`}
+              />
+            </Button>
           </div>
 
           {/* Playback Controls */}
           <div className="flex flex-col items-center gap-2 flex-1 w-full xl:w-auto">
-            <div className="flex items-center gap-2">
-              {/* Shuffle */}
+            <div className="flex items-center gap-4">
               <Button
                 variant="ghost"
-                size="icon"
-                onClick={toggleShuffle}
-                className={`h-8 w-8 ${shuffle ? 'text-primary' : ''}`}
-                title={shuffle ? 'Shuffle on' : 'Shuffle off'}
-              >
-                <Shuffle className="h-4 w-4" />
-              </Button>
-
-              {/* Previous */}
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={playPrevious}
-                className="h-8 w-8"
-                title="Previous track"
-              >
-                <SkipBack className="h-5 w-5" />
-              </Button>
-
-              {/* Play/Pause */}
-              <Button
-                variant="default"
                 size="icon"
                 onClick={togglePlayPause}
                 className="h-10 w-10"
-                title={isPlaying ? 'Pause' : 'Play'}
               >
                 {isPlaying ? (
                   <Pause className="h-6 w-6" />
                 ) : (
                   <Play className="h-6 w-6" />
                 )}
-              </Button>
-
-              {/* Next */}
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={playNext}
-                className="h-8 w-8"
-                title="Next track"
-              >
-                <SkipForward className="h-5 w-5" />
-              </Button>
-
-              {/* Repeat */}
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggleRepeat}
-                className={`h-8 w-8 ${repeatMode !== 'off' ? 'text-primary' : ''}`}
-                title={`Repeat: ${repeatMode}`}
-              >
-                <RepeatIcon className="h-4 w-4" />
               </Button>
             </div>
 
@@ -223,7 +139,6 @@ export default function AudioPlayer() {
               variant="ghost"
               size="icon"
               onClick={toggleMute}
-              title={isMuted ? 'Unmute' : 'Mute'}
             >
               {isMuted || volume === 0 ? (
                 <VolumeX className="h-5 w-5" />
@@ -244,13 +159,6 @@ export default function AudioPlayer() {
           </div>
         </div>
       </div>
-
-      {/* Add to Playlist Dialog */}
-      <AddToPlaylistDialog
-        track={currentTrack}
-        open={showAddToPlaylist}
-        onOpenChange={setShowAddToPlaylist}
-      />
     </div>
   );
 }

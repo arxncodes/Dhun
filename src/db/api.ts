@@ -83,7 +83,7 @@ export const trackApi = {
     let searchQuery = supabase
       .from('tracks')
       .select('*')
-      .or(`title.ilike.%${query}%,artist.ilike.%${query}%,podcast_name.ilike.%${query}%,category.ilike.%${query}%`)
+      .or(`title.ilike.%${query}%,artist.ilike.%${query}%,podcast_name.ilike.%${query}%,category.ilike.%${query}%,music_category.ilike.%${query}%`)
       .order('created_at', { ascending: false });
 
     if (contentType) {

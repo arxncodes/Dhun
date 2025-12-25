@@ -27,10 +27,12 @@ export default function AdminDashboardPage() {
 
   // Upload form state
   const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [coverImageFile, setCoverImageFile] = useState<File | null>(null);
   const [title, setTitle] = useState('');
   const [artist, setArtist] = useState('');
   const [podcastName, setPodcastName] = useState('');
   const [category, setCategory] = useState('');
+  const [musicCategory, setMusicCategory] = useState('');
   const [contentType, setContentType] = useState<'music' | 'podcast'>('music');
   const [coverImageUrl, setCoverImageUrl] = useState('');
 
@@ -73,17 +75,25 @@ export default function AdminDashboardPage() {
       const fileName = `${Date.now()}_${audioFile.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
       const fileUrl = await storageApi.uploadAudio(audioFile, fileName);
 
+      // Upload cover image if provided
+      let uploadedCoverUrl = coverImageUrl.trim() || null;
+      if (coverImageFile) {
+        const coverFileName = `cover_${Date.now()}_${coverImageFile.name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+        uploadedCoverUrl = await storageApi.uploadAudio(coverImageFile, coverFileName);
+      }
+
       // Create track record
       await trackApi.createTrack({
         title: title.trim(),
         artist: contentType === 'music' ? (artist.trim() || null) : null,
         podcast_name: contentType === 'podcast' ? (podcastName.trim() || null) : null,
-        category: category.trim() || null,
+        category: contentType === 'podcast' ? (category.trim() || null) : null,
+        music_category: contentType === 'music' && musicCategory ? (musicCategory as any) : null,
         content_type: contentType,
         file_path: fileName,
         file_url: fileUrl,
         duration: null,
-        cover_image_url: coverImageUrl.trim() || null
+        cover_image_url: uploadedCoverUrl
       });
 
       toast({
@@ -94,10 +104,12 @@ export default function AdminDashboardPage() {
       // Reset form
       setUploadDialogOpen(false);
       setAudioFile(null);
+      setCoverImageFile(null);
       setTitle('');
       setArtist('');
       setPodcastName('');
       setCategory('');
+      setMusicCategory('');
       setCoverImageUrl('');
       loadData();
     } catch (error) {
@@ -246,17 +258,81 @@ export default function AdminDashboardPage() {
                   />
                 </div>
               )}
+              
+              {/* Music Category Selector */}
+              {contentType === 'music' && (
+                <div className="space-y-2">
+                  <Label htmlFor="musicCategory">Music Category</Label>
+                  <Select value={musicCategory} onValueChange={setMusicCategory}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="phonk">Phonk</SelectItem>
+                      <SelectItem value="bollywood">Bollywood</SelectItem>
+                      <SelectItem value="hollywood">Hollywood</SelectItem>
+                      <SelectItem value="romantic">Romantic</SelectItem>
+                      <SelectItem value="gym">Gym</SelectItem>
+                      <SelectItem value="casual">Casual</SelectItem>
+                      <SelectItem value="funny">Funny</SelectItem>
+                      <SelectItem value="pop">Pop</SelectItem>
+                      <SelectItem value="rock">Rock</SelectItem>
+                      <SelectItem value="hip-hop">Hip-Hop</SelectItem>
+                      <SelectItem value="electronic">Electronic</SelectItem>
+                      <SelectItem value="jazz">Jazz</SelectItem>
+                      <SelectItem value="classical">Classical</SelectItem>
+                      <SelectItem value="country">Country</SelectItem>
+                      <SelectItem value="r&b">R&B</SelectItem>
+                      <SelectItem value="indie">Indie</SelectItem>
+                      <SelectItem value="folk">Folk</SelectItem>
+                      <SelectItem value="metal">Metal</SelectItem>
+                      <SelectItem value="blues">Blues</SelectItem>
+                      <SelectItem value="reggae">Reggae</SelectItem>
+                      <SelectItem value="latin">Latin</SelectItem>
+                      <SelectItem value="k-pop">K-Pop</SelectItem>
+                      <SelectItem value="anime">Anime</SelectItem>
+                      <SelectItem value="lo-fi">Lo-Fi</SelectItem>
+                      <SelectItem value="chill">Chill</SelectItem>
+                      <SelectItem value="party">Party</SelectItem>
+                      <SelectItem value="workout">Workout</SelectItem>
+                      <SelectItem value="study">Study</SelectItem>
+                      <SelectItem value="sleep">Sleep</SelectItem>
+                      <SelectItem value="meditation">Meditation</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              {/* Podcast Category Input */}
+              {contentType === 'podcast' && (
+                <div className="space-y-2">
+                  <Label htmlFor="category">Podcast Category (Optional)</Label>
+                  <Input
+                    id="category"
+                    placeholder="e.g., Technology, Business, Comedy"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                  />
+                </div>
+              )}
+
+              {/* Cover Image Upload */}
               <div className="space-y-2">
-                <Label htmlFor="category">Category (Optional)</Label>
+                <Label htmlFor="coverImage">Cover Image</Label>
                 <Input
-                  id="category"
-                  placeholder="e.g., Rock, Pop, Technology"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  id="coverImage"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setCoverImageFile(e.target.files?.[0] || null)}
                 />
+                <p className="text-xs text-muted-foreground">
+                  Upload a cover image or provide a URL below
+                </p>
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="coverImageUrl">Cover Image URL (Optional)</Label>
+                <Label htmlFor="coverImageUrl">Or Cover Image URL</Label>
                 <Input
                   id="coverImageUrl"
                   placeholder="https://example.com/cover.jpg"

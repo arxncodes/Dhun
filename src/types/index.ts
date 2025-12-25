@@ -7,6 +7,38 @@ export interface Option {
 
 export type UserRole = 'user' | 'admin';
 export type ContentType = 'music' | 'podcast';
+export type MusicCategory = 
+  | 'phonk'
+  | 'bollywood'
+  | 'hollywood'
+  | 'romantic'
+  | 'gym'
+  | 'casual'
+  | 'funny'
+  | 'pop'
+  | 'rock'
+  | 'hip-hop'
+  | 'electronic'
+  | 'jazz'
+  | 'classical'
+  | 'country'
+  | 'r&b'
+  | 'indie'
+  | 'folk'
+  | 'metal'
+  | 'blues'
+  | 'reggae'
+  | 'latin'
+  | 'k-pop'
+  | 'anime'
+  | 'lo-fi'
+  | 'chill'
+  | 'party'
+  | 'workout'
+  | 'study'
+  | 'sleep'
+  | 'meditation'
+  | 'other';
 
 export interface Profile {
   id: string;
@@ -23,7 +55,8 @@ export interface Track {
   title: string;
   artist: string | null;
   podcast_name: string | null;
-  category: string | null;
+  category: string | null; // For podcasts
+  music_category: MusicCategory | null; // For music
   content_type: ContentType;
   file_path: string;
   file_url: string;
