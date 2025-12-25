@@ -16,7 +16,8 @@ import {
   ListMusic,
   Plus,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Waves
 } from 'lucide-react';
 import { AddToPlaylistDialog } from './AddToPlaylistDialog';
 
@@ -27,8 +28,26 @@ function formatTime(seconds: number): string {
   return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
-function AudioWaveVisualizer({ isPlaying }: { isPlaying: boolean }) {
+function AudioWaveVisualizer({ isPlaying, orientation = 'vertical' }: { isPlaying: boolean; orientation?: 'vertical' | 'horizontal' }) {
   const bars = 40;
+  
+  if (orientation === 'horizontal') {
+    return (
+      <div className="flex flex-col items-center justify-center gap-1 h-16 px-4">
+        {Array.from({ length: bars }).map((_, i) => (
+          <div
+            key={i}
+            className={`h-0.5 rounded-full transition-all ${isPlaying ? 'wave-bar-horizontal' : 'bg-muted'}`}
+            style={{
+              width: isPlaying ? `${Math.random() * 60 + 20}%` : '20%',
+              animationDelay: `${i * 0.05}s`,
+              animationDuration: `${0.6 + Math.random() * 0.4}s`
+            }}
+          />
+        ))}
+      </div>
+    );
+  }
   
   return (
     <div className="flex items-center justify-center gap-1 h-16 px-4">
@@ -71,6 +90,7 @@ export default function AudioPlayer() {
   const [previousVolume, setPreviousVolume] = useState(volume);
   const [showAddToPlaylist, setShowAddToPlaylist] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [waveOrientation, setWaveOrientation] = useState<'vertical' | 'horizontal'>('vertical');
 
   const toggleMute = () => {
     if (isMuted) {
@@ -154,7 +174,7 @@ export default function AudioPlayer() {
         {!isCollapsed && (
           <>
             {/* Wave Visualizer */}
-            <AudioWaveVisualizer isPlaying={isPlaying} />
+            <AudioWaveVisualizer isPlaying={isPlaying} orientation={waveOrientation} />
 
             {/* Player Controls */}
             <div className="flex flex-col xl:flex-row items-center gap-4 p-4">
@@ -280,6 +300,17 @@ export default function AudioPlayer() {
 
           {/* Volume Control */}
           <div className="flex items-center gap-2 flex-1 justify-end">
+            {/* Wave Orientation Toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setWaveOrientation(prev => prev === 'vertical' ? 'horizontal' : 'vertical')}
+              title={`Wave orientation: ${waveOrientation}`}
+              className="h-8 w-8"
+            >
+              <Waves className={`h-4 w-4 ${waveOrientation === 'horizontal' ? 'rotate-90' : ''} transition-transform`} />
+            </Button>
+            
             <Button
               variant="ghost"
               size="icon"

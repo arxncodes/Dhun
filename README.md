@@ -2,7 +2,7 @@
 
 A modern, full-featured music and podcast streaming web application with light/dark theme support.
 
-![Version](https://img.shields.io/badge/version-2.1.0-blue)
+![Version](https://img.shields.io/badge/version-2.2.0-blue)
 ![React](https://img.shields.io/badge/React-18.3-61dafb)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178c6)
 ![Supabase](https://img.shields.io/badge/Supabase-Latest-3ecf8e)
@@ -12,7 +12,7 @@ A modern, full-featured music and podcast streaming web application with light/d
 ### 🎵 Core Features
 - **Music Streaming** - Browse and stream music tracks with high-quality playback
 - **Podcast Streaming** - Listen to podcast episodes
-- **Audio Wave Visualization** - Real-time animated audio wave display
+- **Audio Wave Visualization** - Real-time animated audio wave display with vertical/horizontal modes
 - **Collapsible Audio Player** - Minimize player while music continues playing
 - **Search** - Powerful search across all content
 - **Playlists** - Create and manage custom playlists
@@ -187,6 +187,7 @@ public/
 - Volume control with mute
 - Like/favorite button
 - Real-time wave visualization (40 animated bars)
+- **Wave orientation toggle** - Switch between vertical and horizontal animations
 - Resume playback from last position
 - **Collapsible interface** - Minimize player with slide animations
 - **Mini player mode** - Shows track info and play/pause when collapsed

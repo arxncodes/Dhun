@@ -5,6 +5,31 @@ All notable changes to Dhun will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2025-12-25
+
+### Added
+- **Wave Animation Toggle**
+  - Toggle button to switch between vertical and horizontal wave animations
+  - Waves icon button positioned next to volume controls
+  - Icon rotates 90° to indicate current orientation
+  - Smooth CSS transform animations for both modes
+  - Horizontal waves: 40 bars animating left-to-right with scaleX
+  - Vertical waves: 40 bars animating up-and-down with scaleY (default)
+  - Tooltip shows current wave orientation
+  - No interruption to music playback when switching modes
+
+### Changed
+- Enhanced `AudioWaveVisualizer` component to support orientation prop
+- Updated `AudioPlayer.tsx` with wave orientation state management
+- Added new CSS animation for horizontal wave mode
+
+### Technical
+- Added `wave-bar-horizontal` CSS class with scaleX animation
+- Added `@keyframes wave-horizontal` animation definition
+- Imported Waves icon from lucide-react
+- TypeScript type: `'vertical' | 'horizontal'`
+- No new dependencies required
+
 ## [2.1.0] - 2025-12-25
 
 ### Added
@@ -109,11 +134,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **2.2.0** (2025-12-25) - Wave animation toggle (vertical/horizontal modes)
 - **2.1.0** (2025-12-25) - Collapsible player, Credits page, GitHub Pages support
 - **2.0.0** (2025-12-24) - Enhanced player, playlists, categories, queue management
 - **1.0.0** (2025-12-20) - Initial release with core features
 
 ## Upgrade Guide
+
+### From 2.1.0 to 2.2.0
+
+No breaking changes. All existing features remain functional.
+
+**New Features Available:**
+1. Click the wave icon button (next to volume controls) to toggle wave orientation
+2. Choose between vertical (default) or horizontal wave animations
+3. Icon rotates to indicate current mode
+
+**For Developers:**
+- Review `WAVE_ANIMATION_FEATURE.md` for technical details
+- No database migrations required
+- No environment variable changes needed
+- No new dependencies added
 
 ### From 2.0.0 to 2.1.0
 
@@ -132,7 +173,9 @@ No breaking changes. All existing features remain functional.
 
 ## Future Roadmap
 
-### Planned Features (v2.2.0)
+### Planned Features (v2.3.0)
+- [ ] Persist wave orientation preference (localStorage)
+- [ ] Additional wave visualization modes (circular, radial)
 - [ ] Keyboard shortcuts for player control
 - [ ] User preferences for player state
 - [ ] Enhanced queue visualization
@@ -149,6 +192,8 @@ No breaking changes. All existing features remain functional.
 - [ ] Crossfade between tracks
 - [ ] Gapless playback
 - [ ] Audio normalization
+- [ ] Custom wave colors and themes
+- [ ] Reduced motion support for accessibility
 
 ## Support
 
