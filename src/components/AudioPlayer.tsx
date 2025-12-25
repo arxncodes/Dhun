@@ -34,34 +34,42 @@ function AudioWaveVisualizer({ isPlaying, orientation = 'vertical' }: { isPlayin
   if (orientation === 'horizontal') {
     return (
       <div className="flex flex-col items-center justify-center gap-1 h-16 px-4">
-        {Array.from({ length: bars }).map((_, i) => (
-          <div
-            key={i}
-            className={`h-0.5 rounded-full transition-all ${isPlaying ? 'wave-bar-horizontal' : 'bg-muted'}`}
-            style={{
-              width: isPlaying ? `${Math.random() * 60 + 20}%` : '20%',
-              animationDelay: `${i * 0.05}s`,
-              animationDuration: `${0.6 + Math.random() * 0.4}s`
-            }}
-          />
-        ))}
+        {Array.from({ length: bars }).map((_, i) => {
+          const randomWidth = Math.random() * 60 + 20;
+          const randomDuration = 0.6 + Math.random() * 0.4;
+          return (
+            <div
+              key={i}
+              className={`h-0.5 rounded-full transition-all ${isPlaying ? 'wave-bar-horizontal' : 'bg-muted'}`}
+              style={{
+                width: isPlaying ? `${randomWidth}%` : '20%',
+                animationDelay: `${i * 0.05}s`,
+                animationDuration: `${randomDuration}s`
+              }}
+            />
+          );
+        })}
       </div>
     );
   }
   
   return (
     <div className="flex items-center justify-center gap-1 h-16 px-4">
-      {Array.from({ length: bars }).map((_, i) => (
-        <div
-          key={i}
-          className={`w-1 rounded-full transition-all ${isPlaying ? 'wave-bar' : 'bg-muted'}`}
-          style={{
-            height: isPlaying ? `${Math.random() * 60 + 20}%` : '20%',
-            animationDelay: `${i * 0.05}s`,
-            animationDuration: `${0.6 + Math.random() * 0.4}s`
-          }}
-        />
-      ))}
+      {Array.from({ length: bars }).map((_, i) => {
+        const randomHeight = Math.random() * 60 + 20;
+        const randomDuration = 0.6 + Math.random() * 0.4;
+        return (
+          <div
+            key={i}
+            className={`w-1 rounded-full transition-all ${isPlaying ? 'wave-bar' : 'bg-muted'}`}
+            style={{
+              height: isPlaying ? `${randomHeight}%` : '20%',
+              animationDelay: `${i * 0.05}s`,
+              animationDuration: `${randomDuration}s`
+            }}
+          />
+        );
+      })}
     </div>
   );
 }
