@@ -1,22 +1,23 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 
 import routes from './routes';
 
-// import Header from '@/components/common/Header';
-// import { AuthProvider } from '@/contexts/AuthContext';
-// import { RouteGuard } from '@/components/common/RouteGuard';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { AudioPlayerProvider } from '@/contexts/AudioPlayerContext';
+import { RouteGuard } from '@/components/common/RouteGuard';
 import { Toaster } from '@/components/ui/toaster';
+import MainLayout from '@/components/layouts/MainLayout';
+import AudioPlayer from '@/components/AudioPlayer';
 
-const App: React.FC = () => {
+function AppContent() {
+  const location = useLocation();
+  const isAuthPage = ['/login', '/register'].includes(location.pathname);
+
   return (
-    <Router>
-      {/*<AuthProvider>*/}
-      {/*<RouteGuard>*/}
-      <div className="flex flex-col min-h-screen">
-        {/*<Header />*/}
-        <main className="flex-grow">
-          <Routes>
+    <>
+      {isAuthPage ? (
+        <Routes>
           {routes.map((route, index) => (
             <Route
               key={index}
@@ -24,13 +25,38 @@ const App: React.FC = () => {
               element={route.element}
             />
           ))}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      ) : (
+        <MainLayout>
+          <Routes>
+            {routes.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                element={route.element}
+              />
+            ))}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </main>
-      </div>
+          <AudioPlayer />
+        </MainLayout>
+      )}
       <Toaster />
-      {/*</RouteGuard>*/}
-      {/*</AuthProvider>*/}
+    </>
+  );
+}
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <AuthProvider>
+        <AudioPlayerProvider>
+          <RouteGuard>
+            <AppContent />
+          </RouteGuard>
+        </AudioPlayerProvider>
+      </AuthProvider>
     </Router>
   );
 };
