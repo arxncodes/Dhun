@@ -42,8 +42,15 @@ export default function RealAudioWaveform({
       // Handle seeking - when user clicks on waveform
       wavesurferRef.current.on('click', (relativeX: number) => {
         if (audioRef.current && onSeek) {
-          isSeekingRef.current = true;
           const duration = audioRef.current.duration;
+          
+          // Validate duration is a valid finite number
+          if (!duration || !isFinite(duration)) {
+            console.warn('Cannot seek: audio duration not ready');
+            return;
+          }
+          
+          isSeekingRef.current = true;
           const seekTime = relativeX * duration;
           onSeek(seekTime);
           // Reset seeking flag after a short delay
