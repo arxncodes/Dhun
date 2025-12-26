@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Music, Github, Code, Heart, Sparkles, Database, Palette, Zap } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Music, Github, Code, Heart, Sparkles, Database, Palette, Zap, Mail, Phone, Linkedin, Instagram, ExternalLink } from 'lucide-react';
 
 export default function CreditsPage() {
   const technologies = [
@@ -69,14 +70,147 @@ export default function CreditsPage() {
       </Card>
 
       {/* Developer Section */}
+      <Card className="border-primary/20">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Code className="h-5 w-5 text-primary" />
+            Developer
+          </CardTitle>
+          <CardDescription>
+            Designed and developed by Aryan
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex flex-col xl:flex-row gap-6">
+            {/* Developer Info */}
+            <div className="flex-1 space-y-4">
+              <div>
+                <h3 className="text-2xl font-bold mb-1">Aryan</h3>
+                <p className="text-sm text-muted-foreground">Full-Stack Developer</p>
+              </div>
+              
+              <p className="text-muted-foreground leading-relaxed">
+                Passionate about creating modern, user-friendly web applications with clean code 
+                and beautiful design. Specialized in React, TypeScript, and full-stack development.
+              </p>
+
+              {/* Contact Information */}
+              <div className="space-y-3 pt-2">
+                <h4 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">
+                  Contact Information
+                </h4>
+                
+                <div className="grid gap-3">
+                  {/* Email */}
+                  <a 
+                    href="mailto:aryanaditya8439@gmail.com"
+                    className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-secondary/50 transition-colors group"
+                  >
+                    <Mail className="h-4 w-4 text-primary flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs text-muted-foreground">Email</p>
+                      <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">
+                        aryanaditya8439@gmail.com
+                      </p>
+                    </div>
+                    <ExternalLink className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </a>
+
+                  {/* Phone */}
+                  <a 
+                    href="tel:+918439396682"
+                    className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-secondary/50 transition-colors group"
+                  >
+                    <Phone className="h-4 w-4 text-primary flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs text-muted-foreground">Phone</p>
+                      <p className="text-sm font-medium group-hover:text-primary transition-colors">
+                        +91 8439396682
+                      </p>
+                    </div>
+                    <ExternalLink className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Social Links */}
+            <div className="xl:w-64 space-y-3">
+              <h4 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">
+                Connect
+              </h4>
+              
+              <div className="space-y-2">
+                {/* GitHub */}
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-3 h-auto py-3"
+                  asChild
+                >
+                  <a href="https://github.com/arxncodes" target="_blank" rel="noopener noreferrer">
+                    <Github className="h-5 w-5 text-primary" />
+                    <div className="flex-1 text-left">
+                      <p className="text-xs text-muted-foreground">GitHub</p>
+                      <p className="text-sm font-medium">@arxncodes</p>
+                    </div>
+                    <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                  </a>
+                </Button>
+
+                {/* LinkedIn */}
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-3 h-auto py-3"
+                  asChild
+                >
+                  <a href="https://www.linkedin.com/in/aryan-aditya" target="_blank" rel="noopener noreferrer">
+                    <Linkedin className="h-5 w-5 text-primary" />
+                    <div className="flex-1 text-left">
+                      <p className="text-xs text-muted-foreground">LinkedIn</p>
+                      <p className="text-sm font-medium">Aryan Aditya</p>
+                    </div>
+                    <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                  </a>
+                </Button>
+
+                {/* Instagram */}
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-3 h-auto py-3"
+                  asChild
+                >
+                  <a href="https://instagram.com/ig_.kratos" target="_blank" rel="noopener noreferrer">
+                    <Instagram className="h-5 w-5 text-primary" />
+                    <div className="flex-1 text-left">
+                      <p className="text-xs text-muted-foreground">Instagram</p>
+                      <p className="text-sm font-medium">@ig_.kratos</p>
+                    </div>
+                    <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                  </a>
+                </Button>
+              </div>
+
+              {/* Badge */}
+              <div className="pt-4">
+                <Badge variant="secondary" className="w-full justify-center py-2">
+                  <Sparkles className="h-3 w-3 mr-1" />
+                  Available for Projects
+                </Badge>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Project Details Section */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Code className="h-5 w-5 text-primary" />
-            Developer Information
+            Project Information
           </CardTitle>
           <CardDescription>
-            Created as a demonstration of modern web development practices
+            Technical details and architecture
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -201,7 +335,7 @@ export default function CreditsPage() {
       {/* Footer */}
       <div className="text-center space-y-2 py-8">
         <p className="text-sm text-muted-foreground">
-          Made with <Heart className="inline h-4 w-4 text-primary fill-primary" /> for music lovers
+          Made with <Heart className="inline h-4 w-4 text-primary fill-primary" /> by Aryan for music lovers
         </p>
         <p className="text-xs text-muted-foreground">
           © 2025 Dhun. All rights reserved.
