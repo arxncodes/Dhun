@@ -78,13 +78,12 @@ A modern, full-featured music and podcast streaming web application with light/d
    - Choose between light and dark modes
 
 ## 📖 Screenshots
-
-- **[QUICK_START.md](./QUICK_START.md)** - Get started in 3 steps
-- **[USAGE_GUIDE.md](./USAGE_GUIDE.md)** - Complete user and admin guide
-- **[PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)** - Technical overview
-- **[THEME_DOCUMENTATION.md](./THEME_DOCUMENTATION.md)** - Theme system details
-- **[UPDATE_SUMMARY.md](./UPDATE_SUMMARY.md)** - Recent changes and updates
-
+<p align="center">
+  <img src="public/home.png" width="32%" />
+  <img src="public/credits.png" width="32%" />
+  <img src="public/music.png" width="32%" />
+  <img src="public/recent.png" width="32%" />
+</p>
 ## 🎨 Theme System
 
 ### Light Theme
