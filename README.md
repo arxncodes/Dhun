@@ -1,3 +1,7 @@
+# Welcome to Your Miaoda Project
+Miaoda Application Link URL
+    URL:https://medo.dev/projects/app-8h9kfeyvmyo1
+
 # Dhun 🎵
 
 A modern, full-featured music and podcast streaming web application with light/dark theme support.
@@ -58,7 +62,7 @@ A modern, full-featured music and podcast streaming web application with light/d
 
 3. **Open in Browser**
    ```
-   http://127.0.0.1:5173
+   http://localhost:5173
    ```
 
 ### First Time Setup
