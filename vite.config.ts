@@ -16,7 +16,7 @@ export default defineConfig({
     },
   },
   // GitHub Pages configuration
-  base: process.env.GITHUB_PAGES === 'true' ? '/melody-stream/' : '/',
+  base: process.env.GITHUB_PAGES === 'true' ? '/Dhun/' : '/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
