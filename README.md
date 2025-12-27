@@ -78,12 +78,10 @@ A modern, full-featured music and podcast streaming web application with light/d
    - Choose between light and dark modes
 
 ## 📖 Screenshots
-<p align="center">
-  <img src="public/home.png" width="32%" />
-  <img src="public/credits.png" width="32%" />
-  <img src="public/music.png" width="32%" />
-  <img src="public/recent.png" width="32%" />
-</p>
+![home](public/home.png)
+![credits](public/credits.png)
+![music](public/music.png)
+![recent](public/recent.png)
 ## 🎨 Theme System
 
 ### Light Theme
