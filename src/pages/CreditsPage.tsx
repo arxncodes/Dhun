@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Music, Github, Code, Heart, Sparkles, Database, Palette, Zap, Mail, Phone, Linkedin, Instagram, ExternalLink } from 'lucide-react';
+import { Music, Github, Code, Heart, Sparkles, Database, Palette, Zap, Mail, Phone, Linkedin, ExternalLink } from 'lucide-react';
 
 export default function CreditsPage() {
   const technologies = [
@@ -163,7 +163,7 @@ export default function CreditsPage() {
                   className="w-full justify-start gap-3 h-auto py-3"
                   asChild
                 >
-                  <a href="https://www.linkedin.com/in/aryan-aditya" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.linkedin.com/in/arxncodes" target="_blank" rel="noopener noreferrer">
                     <Linkedin className="h-5 w-5 text-primary" />
                     <div className="flex-1 text-left">
                       <p className="text-xs text-muted-foreground">LinkedIn</p>
@@ -172,24 +172,6 @@ export default function CreditsPage() {
                     <ExternalLink className="h-3 w-3 text-muted-foreground" />
                   </a>
                 </Button>
-
-                {/* Instagram */}
-                <Button
-                  variant="outline"
-                  className="w-full justify-start gap-3 h-auto py-3"
-                  asChild
-                >
-                  <a href="https://instagram.com/ig_.kratos" target="_blank" rel="noopener noreferrer">
-                    <Instagram className="h-5 w-5 text-primary" />
-                    <div className="flex-1 text-left">
-                      <p className="text-xs text-muted-foreground">Instagram</p>
-                      <p className="text-sm font-medium">@ig_.kratos</p>
-                    </div>
-                    <ExternalLink className="h-3 w-3 text-muted-foreground" />
-                  </a>
-                </Button>
-              </div>
-
               {/* Badge */}
               <div className="pt-4">
                 <Badge variant="secondary" className="w-full justify-center py-2">
