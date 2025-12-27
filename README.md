@@ -77,7 +77,7 @@ A modern, full-featured music and podcast streaming web application with light/d
    - Click the theme button in the sidebar
    - Choose between light and dark modes
 
-## 📖 Documentation
+## 📖 Screenshots
 
 - **[QUICK_START.md](./QUICK_START.md)** - Get started in 3 steps
 - **[USAGE_GUIDE.md](./USAGE_GUIDE.md)** - Complete user and admin guide
@@ -369,5 +369,7 @@ For issues or questions:
 ---
 
 **Built with ❤️ using React, TypeScript, and Supabase**
+
 **Code by arxncodes</>**
+
 **Enjoy streaming with Dhun! 🎵🎙️**
